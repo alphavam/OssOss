@@ -1,98 +1,117 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const { width, height } = Dimensions.get('window');
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.circle1} />
+      <View style={styles.circle2} />
+
+      <View style={styles.content}>
+        <View style={styles.topSection}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>OSS</Text>
+            <Text style={styles.logoTextRed}>OSS</Text>
+          </View>
+          <Text style={styles.tagline}>Discover the World's Best Activities</Text>
+          <Text style={styles.subtitle}>Tours • Adventures • Experiences</Text>
+        </View>
+
+        <View style={styles.bottomSection}>
+          <TouchableOpacity style={styles.button} onPress={() => router.push('/(tabs)/explore')}>
+            <Text style={styles.buttonText}>Explore Now →</Text>
+          </TouchableOpacity>
+          <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
-  stepContainer: {
-    gap: 8,
+  circle1: {
+    position: 'absolute',
+    width: 350,
+    height: 350,
+    borderRadius: 175,
+    backgroundColor: '#E6394615',
+    top: -50,
+    right: -80,
+  },
+  circle2: {
+    position: 'absolute',
+    width: 250,
+    height: 250,
+    borderRadius: 125,
+    backgroundColor: '#E6394610',
+    bottom: 100,
+    left: -60,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 32,
+  },
+  topSection: {
+    marginTop: 80,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    marginBottom: 24,
+  },
+  logoText: {
+    fontSize: 52,
+    fontWeight: '900',
+    color: '#0A0A0A',
+    letterSpacing: 4,
+  },
+  logoTextRed: {
+    fontSize: 52,
+    fontWeight: '900',
+    color: '#E63946',
+    letterSpacing: 4,
+  },
+  tagline: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#0A0A0A',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    fontSize: 14,
+    color: '#999',
+    letterSpacing: 2,
+  },
+  bottomSection: {
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#E63946',
+    paddingVertical: 18,
+    borderRadius: 50,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  loginText: {
+    color: '#999',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  loginLink: {
+    color: '#E63946',
+    fontWeight: 'bold',
   },
 });
