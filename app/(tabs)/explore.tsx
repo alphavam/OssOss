@@ -110,10 +110,10 @@ export default function HomeScreen() {
           <Text style={[styles.navLabel, styles.navLabelActive]}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
-  <Text style={styles.navIcon}>🔍</Text>
-  <Text style={styles.navLabel}>Search</Text>
-</TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+          <Text style={styles.navIcon}>🔍</Text>
+          <Text style={styles.navLabel}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
           <Text style={styles.navIcon}>🤍</Text>
           <Text style={styles.navLabel}>Saved</Text>
         </TouchableOpacity>
