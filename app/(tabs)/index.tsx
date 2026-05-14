@@ -25,7 +25,9 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.button} onPress={() => router.push('/(tabs)/explore')}>
             <Text style={styles.buttonText}>Explore Now →</Text>
           </TouchableOpacity>
-          <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
+          <TouchableOpacity onPress={() => router.push('/(tabs)/login')}>
+  <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
+</TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

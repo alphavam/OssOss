@@ -14,6 +14,7 @@ export default function TabLayout() {
       <Tabs.Screen name="booking" />
       <Tabs.Screen name="profile" />
       <Tabs.Screen name="search" />
+      <Tabs.Screen name="login" />
     </Tabs>
   );
 }
