@@ -1,30 +1,15 @@
+import { activities, categories, countries } from '@/constants/data';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-const categories = ['All', 'Tours', 'Adventure', 'Food', 'Culture', 'Water', 'Night'];
-
-const featured = [
-  { id: 1, title: 'Desert Safari', location: 'Dubai, UAE', price: 89, rating: 4.9, duration: '6h', emoji: '🐪' },
-  { id: 2, title: 'Eiffel Tower Tour', location: 'Paris, France', price: 65, rating: 4.8, duration: '3h', emoji: '🗼' },
-  { id: 3, title: 'Surfing Lesson', location: 'Bali, Indonesia', price: 45, rating: 4.7, duration: '2h', emoji: '🏄' },
-  { id: 4, title: 'Colosseum Tour', location: 'Rome, Italy', price: 35, rating: 4.6, duration: '4h', emoji: '🏛️' },
-  { id: 5, title: 'Scuba Diving', location: 'Maldives', price: 120, rating: 5.0, duration: '3h', emoji: '🤿' },
-  { id: 6, title: 'Santorini Sunset', location: 'Santorini, Greece', price: 75, rating: 4.9, duration: '2h', emoji: '🌅' },
-];
-
-const cities = [
-  { name: 'Dubai', country: 'UAE', emoji: '🇦🇪' },
-  { name: 'Paris', country: 'France', emoji: '🇫🇷' },
-  { name: 'Tokyo', country: 'Japan', emoji: '🇯🇵' },
-  { name: 'New York', country: 'USA', emoji: '🇺🇸' },
-  { name: 'Bali', country: 'Indonesia', emoji: '🇮🇩' },
-  { name: 'London', country: 'UK', emoji: '🇬🇧' },
-];
+const cities = countries.slice(0, 6).map(c => ({ name: c.cities[0], country: c.name, emoji: c.emoji }));
 
 export default function HomeScreen() {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('All');
+
+  const filtered = activeCategory === 'All' ? activities : activities.filter(a => a.category === activeCategory);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,17 +63,15 @@ export default function HomeScreen() {
 
         {/* Featured Activities */}
         <Text style={styles.sectionTitle}>Featured Activities</Text>
-        {featured.map(activity => (
+        {filtered.map(activity => (
           <TouchableOpacity
             key={activity.id}
             style={styles.card}
             onPress={() => router.push('/(tabs)/activity')}>
-            <View style={styles.cardImage}>
-              <Text style={styles.cardEmoji}>{activity.emoji}</Text>
-            </View>
+            <Image source={{ uri: activity.image }} style={styles.cardImage} />
             <View style={styles.cardContent}>
               <Text style={styles.cardTitle}>{activity.title}</Text>
-              <Text style={styles.cardLocation}>📍 {activity.location}</Text>
+              <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
               <View style={styles.cardBottom}>
                 <View style={styles.cardMeta}>
                   <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
@@ -244,12 +227,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     height: 160,
-    backgroundColor: '#FFE5E7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardEmoji: {
-    fontSize: 60,
+    width: '100%',
   },
   cardContent: {
     padding: 16,
