@@ -146,12 +146,12 @@ const styles = StyleSheet.create({
   logoTextRed: {
     fontSize: 40,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
     letterSpacing: 4,
   },
   toggle: {
     flexDirection: 'row',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     borderRadius: 50,
     padding: 4,
     marginBottom: 32,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -204,11 +204,11 @@ const styles = StyleSheet.create({
   },
   forgotText: {
     fontSize: 13,
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '600',
   },
   submitBtn: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     paddingVertical: 18,
     borderRadius: 50,
     alignItems: 'center',
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   switchLink: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '700',
   },
 });

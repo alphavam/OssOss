@@ -13,12 +13,10 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
         </View>
 
-        {/* Avatar & Info */}
         <View style={styles.profileSection}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>A</Text>
@@ -43,7 +41,6 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* My Bookings */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>My Bookings</Text>
           {bookings.map(booking => (
@@ -65,7 +62,6 @@ export default function ProfileScreen() {
           ))}
         </View>
 
-        {/* Settings */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Settings</Text>
           {['Edit Profile', 'Notifications', 'Payment Methods', 'Help & Support', 'Log Out'].map(item => (
@@ -76,20 +72,19 @@ export default function ProfileScreen() {
           ))}
         </View>
 
-        <View style={{ height: 40 }} />
+        <View style={{ height: 80 }} />
       </ScrollView>
 
-      {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={styles.navLabel}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
           <Text style={styles.navIcon}>🔍</Text>
           <Text style={styles.navLabel}>Search</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
           <Text style={styles.navIcon}>🤍</Text>
           <Text style={styles.navLabel}>Saved</Text>
         </TouchableOpacity>
@@ -126,7 +121,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
@@ -149,7 +144,7 @@ const styles = StyleSheet.create({
   },
   statsRow: {
     flexDirection: 'row',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     width: '100%',
@@ -161,7 +156,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 20,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
   },
   statLabel: {
     fontSize: 12,
@@ -185,7 +180,7 @@ const styles = StyleSheet.create({
   bookingCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 12,
     marginBottom: 12,
@@ -195,7 +190,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 12,
-    backgroundColor: '#FFE5E7',
+    backgroundColor: '#FFF8F0',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -226,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
   },
   statusUpcoming: {
-    backgroundColor: '#FFE5E7',
+    backgroundColor: '#FFF8F0',
   },
   statusText: {
     fontSize: 11,
@@ -234,7 +229,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   statusTextUpcoming: {
-    color: '#E63946',
+    color: '#FF6B35',
   },
   settingItem: {
     flexDirection: 'row',
@@ -249,18 +244,23 @@ const styles = StyleSheet.create({
     color: '#0A0A0A',
   },
   logOut: {
-    color: '#E63946',
+    color: '#FF6B35',
   },
   settingArrow: {
     fontSize: 20,
     color: '#999',
   },
   bottomNav: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
     borderTopColor: '#F0F0F0',
     paddingVertical: 10,
+    paddingBottom: 20,
   },
   navItem: {
     flex: 1,
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   navItemActive: {
     borderTopWidth: 2,
-    borderTopColor: '#E63946',
+    borderTopColor: '#FF6B35',
   },
   navIcon: {
     fontSize: 22,
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navLabelActive: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '700',
   },
 });

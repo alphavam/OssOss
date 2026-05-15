@@ -1,17 +1,11 @@
+import { activities } from '@/constants/data';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-const savedActivities = [
-  { id: 1, title: 'Desert Safari', location: 'Dubai, UAE', price: 89, rating: 4.9, emoji: '🐪' },
-  { id: 2, title: 'Santorini Sunset', location: 'Santorini, Greece', price: 75, rating: 4.9, emoji: '🌅' },
-  { id: 3, title: 'Scuba Diving', location: 'Maldives', price: 120, rating: 5.0, emoji: '🤿' },
-  { id: 4, title: 'Eiffel Tower Tour', location: 'Paris, France', price: 65, rating: 4.8, emoji: '🗼' },
-];
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SavedScreen() {
   const router = useRouter();
-  const [saved, setSaved] = useState(savedActivities);
+  const [saved, setSaved] = useState(activities.slice(0, 4));
 
   const removeItem = (id: number) => {
     setSaved(prev => prev.filter(a => a.id !== id));
@@ -19,7 +13,6 @@ export default function SavedScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Saved</Text>
         <Text style={styles.headerCount}>{saved.length} activities</Text>
@@ -42,20 +35,16 @@ export default function SavedScreen() {
                 key={activity.id}
                 style={styles.card}
                 onPress={() => router.push('/(tabs)/activity')}>
-                <View style={styles.cardImage}>
-                  <Text style={styles.cardEmoji}>{activity.emoji}</Text>
-                </View>
+                <Image source={{ uri: activity.image }} style={styles.cardImage} />
                 <View style={styles.cardContent}>
                   <Text style={styles.cardTitle}>{activity.title}</Text>
-                  <Text style={styles.cardLocation}>📍 {activity.location}</Text>
+                  <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
                   <View style={styles.cardBottom}>
                     <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
                     <Text style={styles.cardPrice}>From ${activity.price}</Text>
                   </View>
                 </View>
-                <TouchableOpacity
-                  style={styles.removeBtn}
-                  onPress={() => removeItem(activity.id)}>
+                <TouchableOpacity style={styles.removeBtn} onPress={() => removeItem(activity.id)}>
                   <Text style={styles.removeBtnText}>❤️</Text>
                 </TouchableOpacity>
               </TouchableOpacity>
@@ -65,7 +54,6 @@ export default function SavedScreen() {
         <View style={{ height: 80 }} />
       </ScrollView>
 
-      {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
           <Text style={styles.navIcon}>🏠</Text>
@@ -157,12 +145,6 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 90,
     height: 90,
-    backgroundColor: '#FFE5E7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardEmoji: {
-    fontSize: 36,
   },
   cardContent: {
     flex: 1,

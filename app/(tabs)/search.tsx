@@ -1,17 +1,7 @@
+import { activities } from '@/constants/data';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
-const allActivities = [
-  { id: 1, title: 'Desert Safari', location: 'Dubai, UAE', price: 89, rating: 4.9, duration: '6h', emoji: '🐪', category: 'Adventure' },
-  { id: 2, title: 'Eiffel Tower Tour', location: 'Paris, France', price: 65, rating: 4.8, duration: '3h', emoji: '🗼', category: 'Tours' },
-  { id: 3, title: 'Surfing Lesson', location: 'Bali, Indonesia', price: 45, rating: 4.7, duration: '2h', emoji: '🏄', category: 'Water' },
-  { id: 4, title: 'Colosseum Tour', location: 'Rome, Italy', price: 35, rating: 4.6, duration: '4h', emoji: '🏛️', category: 'Culture' },
-  { id: 5, title: 'Scuba Diving', location: 'Maldives', price: 120, rating: 5.0, duration: '3h', emoji: '🤿', category: 'Water' },
-  { id: 6, title: 'Santorini Sunset', location: 'Santorini, Greece', price: 75, rating: 4.9, duration: '2h', emoji: '🌅', category: 'Tours' },
-  { id: 7, title: 'Cooking Class', location: 'Tokyo, Japan', price: 55, rating: 4.8, duration: '3h', emoji: '🍜', category: 'Food' },
-  { id: 8, title: 'City Night Tour', location: 'New York, USA', price: 40, rating: 4.7, duration: '2h', emoji: '🌆', category: 'Night' },
-];
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const popular = ['Dubai', 'Paris', 'Bali', 'Tokyo', 'New York', 'London', 'Rome', 'Maldives'];
 
@@ -19,20 +9,19 @@ export default function SearchScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
 
-  const filtered = allActivities.filter(a =>
+  const filtered = activities.filter(a =>
     a.title.toLowerCase().includes(query.toLowerCase()) ||
-    a.location.toLowerCase().includes(query.toLowerCase()) ||
+    a.city.toLowerCase().includes(query.toLowerCase()) ||
+    a.country.toLowerCase().includes(query.toLowerCase()) ||
     a.category.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Search</Text>
       </View>
 
-      {/* Search Input */}
       <View style={styles.searchContainer}>
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
@@ -53,14 +42,10 @@ export default function SearchScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {query.length === 0 ? (
           <>
-            {/* Popular Searches */}
             <Text style={styles.sectionTitle}>Popular Destinations</Text>
             <View style={styles.tagsContainer}>
               {popular.map(city => (
-                <TouchableOpacity
-                  key={city}
-                  style={styles.tag}
-                  onPress={() => setQuery(city)}>
+                <TouchableOpacity key={city} style={styles.tag} onPress={() => setQuery(city)}>
                   <Text style={styles.tagText}>📍 {city}</Text>
                 </TouchableOpacity>
               ))}
@@ -74,12 +59,10 @@ export default function SearchScreen() {
                 key={activity.id}
                 style={styles.card}
                 onPress={() => router.push('/(tabs)/activity')}>
-                <View style={styles.cardImage}>
-                  <Text style={styles.cardEmoji}>{activity.emoji}</Text>
-                </View>
+                <Image source={{ uri: activity.image }} style={styles.cardImage} />
                 <View style={styles.cardContent}>
                   <Text style={styles.cardTitle}>{activity.title}</Text>
-                  <Text style={styles.cardLocation}>📍 {activity.location}</Text>
+                  <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
                   <View style={styles.cardBottom}>
                     <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
                     <Text style={styles.cardPrice}>From ${activity.price}</Text>
@@ -99,7 +82,6 @@ export default function SearchScreen() {
         <View style={{ height: 80 }} />
       </ScrollView>
 
-      {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
           <Text style={styles.navIcon}>🏠</Text>
@@ -109,7 +91,7 @@ export default function SearchScreen() {
           <Text style={styles.navIcon}>🔍</Text>
           <Text style={[styles.navLabel, styles.navLabelActive]}>Search</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
           <Text style={styles.navIcon}>🤍</Text>
           <Text style={styles.navLabel}>Saved</Text>
         </TouchableOpacity>
@@ -196,12 +178,6 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 90,
     height: 90,
-    backgroundColor: '#FFE5E7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardEmoji: {
-    fontSize: 36,
   },
   cardContent: {
     flex: 1,
