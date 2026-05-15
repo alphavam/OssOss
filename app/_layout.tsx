@@ -16,6 +16,7 @@ export default function TabLayout() {
       <Tabs.Screen name="search" />
       <Tabs.Screen name="login" />
       <Tabs.Screen name="saved" />
+      <Tabs.Screen name="countries" />
     </Tabs>
   );
 }

@@ -19,6 +19,9 @@ export default function HomeScreen() {
           <View>
             <Text style={styles.greeting}>Hello, Traveler 👋</Text>
             <Text style={styles.headerTitle}>Where to next?</Text>
+            <TouchableOpacity style={styles.countriesBtn} onPress={() => router.push('/countries' as any)}>
+              <Text style={styles.countriesBtnText}>🌍 Browse Countries</Text>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.avatar} onPress={() => router.push('/(tabs)/profile')}>
             <Text style={styles.avatarText}>A</Text>
@@ -131,11 +134,24 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#0A0A0A',
   },
+  countriesBtn: {
+    backgroundColor: '#FFF8F0',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 50,
+    marginTop: 8,
+    alignSelf: 'flex-start',
+  },
+  countriesBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#FF6B35',
+  },
   avatar: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -147,7 +163,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     marginHorizontal: 24,
     borderRadius: 16,
     paddingHorizontal: 16,
@@ -176,7 +192,7 @@ const styles = StyleSheet.create({
   },
   cityCard: {
     alignItems: 'center',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     marginRight: 12,
@@ -204,11 +220,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 50,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     marginRight: 10,
   },
   categoryBtnActive: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
   },
   categoryText: {
     fontSize: 14,
@@ -222,7 +238,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginBottom: 16,
     borderRadius: 20,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     overflow: 'hidden',
   },
   cardImage: {
@@ -263,7 +279,7 @@ const styles = StyleSheet.create({
   cardPrice: {
     fontSize: 16,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
   },
   bottomNav: {
     position: 'absolute',
@@ -284,7 +300,7 @@ const styles = StyleSheet.create({
   },
   navItemActive: {
     borderTopWidth: 2,
-    borderTopColor: '#E63946',
+    borderTopColor: '#FF6B35',
   },
   navIcon: {
     fontSize: 22,
@@ -295,7 +311,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navLabelActive: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '700',
   },
 });
