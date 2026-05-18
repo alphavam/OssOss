@@ -1,53 +1,62 @@
-import { useRouter } from 'expo-router';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { activities } from '@/constants/data';
+import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ActivityScreen() {
   const router = useRouter();
+  const { id } = useLocalSearchParams();
+  const activity = activities.find(a => a.id === Number(id)) || activities[0];
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Image */}
         <View style={styles.imageContainer}>
-          <View style={styles.image}>
-            <Text style={styles.imageEmoji}>🌍</Text>
-          </View>
+          <Image
+            source={{ uri: activity.image }}
+            style={styles.image}
+          />
           <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-            <Text style={styles.backText}>←</Text>
+            <Ionicons name="arrow-back" size={22} color="#0A0A0A" />
           </TouchableOpacity>
-          <View style={styles.favoriteBtn}>
-            <Text>🤍</Text>
-          </View>
+          <TouchableOpacity style={styles.favoriteBtn}>
+            <Ionicons name="heart-outline" size={22} color="#0A0A0A" />
+          </TouchableOpacity>
         </View>
 
         {/* Content */}
         <View style={styles.content}>
           {/* Title & Rating */}
           <View style={styles.titleRow}>
-            <Text style={styles.title}>Desert Safari</Text>
+            <Text style={styles.title}>{activity.title}</Text>
             <View style={styles.ratingBadge}>
-              <Text style={styles.ratingText}>⭐ 4.9</Text>
+              <Ionicons name="star" size={14} color="#FF6B35" />
+              <Text style={styles.ratingText}> {activity.rating}</Text>
             </View>
           </View>
 
-          <Text style={styles.location}>📍 Dubai, UAE</Text>
+          <View style={styles.locationRow}>
+            <Ionicons name="location" size={14} color="#999" />
+            <Text style={styles.location}> {activity.city}, {activity.country}</Text>
+          </View>
 
           {/* Info Row */}
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
-              <Text style={styles.infoIcon}>⏱</Text>
+              <Ionicons name="time-outline" size={20} color="#FF6B35" />
               <Text style={styles.infoLabel}>Duration</Text>
-              <Text style={styles.infoValue}>6 hours</Text>
+              <Text style={styles.infoValue}>{activity.duration}</Text>
             </View>
             <View style={styles.infoDivider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoIcon}>👥</Text>
+              <Ionicons name="people-outline" size={20} color="#FF6B35" />
               <Text style={styles.infoLabel}>Group</Text>
               <Text style={styles.infoValue}>Max 12</Text>
             </View>
             <View style={styles.infoDivider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoIcon}>🌐</Text>
+              <Ionicons name="language-outline" size={20} color="#FF6B35" />
               <Text style={styles.infoLabel}>Language</Text>
               <Text style={styles.infoValue}>English</Text>
             </View>
@@ -56,17 +65,16 @@ export default function ActivityScreen() {
           {/* Description */}
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>
-            Experience the magic of the Arabian desert with our premium safari. 
-            Enjoy dune bashing, camel riding, sandboarding, and a traditional 
-            BBQ dinner under the stars. An unforgettable adventure awaits!
+            Experience the best of {activity.city} with our premium {activity.title}.
+            An unforgettable adventure awaits you in {activity.country}!
           </Text>
 
           {/* Includes */}
           <Text style={styles.sectionTitle}>What's Included</Text>
           <View style={styles.includesList}>
-            {['Hotel pickup & dropoff', 'BBQ dinner', 'Camel ride', 'Sandboarding', 'Live entertainment'].map(item => (
+            {['Hotel pickup & dropoff', 'Professional guide', 'All equipment', 'Refreshments', 'Photos & memories'].map(item => (
               <View key={item} style={styles.includeItem}>
-                <Text style={styles.includeCheck}>✓</Text>
+                <Ionicons name="checkmark-circle" size={18} color="#FF6B35" />
                 <Text style={styles.includeText}>{item}</Text>
               </View>
             ))}
@@ -81,10 +89,14 @@ export default function ActivityScreen() {
               </View>
               <View>
                 <Text style={styles.reviewName}>John D.</Text>
-                <Text style={styles.reviewStars}>⭐⭐⭐⭐⭐</Text>
+                <View style={styles.starsRow}>
+                  {[1,2,3,4,5].map(i => (
+                    <Ionicons key={i} name="star" size={12} color="#FF6B35" />
+                  ))}
+                </View>
               </View>
             </View>
-            <Text style={styles.reviewText}>Amazing experience! The guide was fantastic and the sunset views were breathtaking.</Text>
+            <Text style={styles.reviewText}>Amazing experience! The guide was fantastic and the views were breathtaking.</Text>
           </View>
         </View>
       </ScrollView>
@@ -93,7 +105,7 @@ export default function ActivityScreen() {
       <View style={styles.bottomBar}>
         <View>
           <Text style={styles.priceLabel}>From</Text>
-          <Text style={styles.price}>$89 <Text style={styles.pricePer}>/ person</Text></Text>
+          <Text style={styles.price}>${activity.price} <Text style={styles.pricePer}>/ person</Text></Text>
         </View>
         <TouchableOpacity style={styles.bookBtn} onPress={() => router.push('/(tabs)/booking')}>
           <Text style={styles.bookBtnText}>Book Now</Text>
@@ -112,13 +124,8 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   image: {
-    height: 280,
-    backgroundColor: '#FFE5E7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageEmoji: {
-    fontSize: 80,
+    height: 300,
+    width: '100%',
   },
   backBtn: {
     position: 'absolute',
@@ -130,10 +137,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  backText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   favoriteBtn: {
     position: 'absolute',
@@ -145,6 +153,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   content: {
     padding: 24,
@@ -162,7 +175,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ratingBadge: {
-    backgroundColor: '#FFF3F3',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF8F0',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -170,16 +185,20 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#E63946',
+    color: '#FF6B35',
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   location: {
     fontSize: 14,
     color: '#999',
-    marginBottom: 20,
   },
   infoRow: {
     flexDirection: 'row',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     marginBottom: 24,
@@ -187,15 +206,11 @@ const styles = StyleSheet.create({
   infoItem: {
     flex: 1,
     alignItems: 'center',
-  },
-  infoIcon: {
-    fontSize: 20,
-    marginBottom: 4,
+    gap: 4,
   },
   infoLabel: {
     fontSize: 11,
     color: '#999',
-    marginBottom: 2,
   },
   infoValue: {
     fontSize: 13,
@@ -225,20 +240,15 @@ const styles = StyleSheet.create({
   includeItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
-  },
-  includeCheck: {
-    color: '#E63946',
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginRight: 10,
+    marginBottom: 10,
+    gap: 10,
   },
   includeText: {
     fontSize: 14,
     color: '#333',
   },
   reviewCard: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     marginBottom: 100,
@@ -253,7 +263,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -265,9 +275,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: '#0A0A0A',
+    marginBottom: 2,
   },
-  reviewStars: {
-    fontSize: 12,
+  starsRow: {
+    flexDirection: 'row',
+    gap: 2,
   },
   reviewText: {
     fontSize: 13,
@@ -303,7 +315,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   bookBtn: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 50,

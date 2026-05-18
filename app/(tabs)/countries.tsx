@@ -1,4 +1,5 @@
 import { countries } from '@/constants/data';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -15,14 +16,14 @@ export default function CountriesScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-          <Text style={styles.backText}>←</Text>
+          <Ionicons name="arrow-back" size={22} color="#0A0A0A" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Countries</Text>
         <View style={{ width: 40 }} />
       </View>
 
       <View style={styles.searchContainer}>
-        <Text style={styles.searchIcon}>🔍</Text>
+        <Ionicons name="search" size={16} color="#999" style={{ marginRight: 8 }} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search countries..."
@@ -38,7 +39,7 @@ export default function CountriesScreen() {
             <TouchableOpacity
               key={country.id}
               style={styles.countryCard}
-              onPress={() => router.push('/(tabs)/explore')}>
+              onPress={() => router.push('/city' as any)}>
               <Text style={styles.countryEmoji}>{country.emoji}</Text>
               <Text style={styles.countryName}>{country.name}</Text>
               <Text style={styles.citiesCount}>{country.cities.length} cities</Text>
@@ -72,10 +73,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   headerTitle: {
     fontSize: 20,
     fontWeight: '900',
@@ -90,10 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 24,
-  },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
   },
   searchInput: {
     flex: 1,
@@ -112,6 +105,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
   },
   countryEmoji: {
     fontSize: 40,

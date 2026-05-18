@@ -10,7 +10,14 @@ export default function TabLayout() {
       }}>
       <Tabs.Screen name="index" />
       <Tabs.Screen name="explore" />
+      <Tabs.Screen name="activity" />
+      <Tabs.Screen name="booking" />
+      <Tabs.Screen name="profile" />
+      <Tabs.Screen name="search" />
+      <Tabs.Screen name="login" />
+      <Tabs.Screen name="saved" />
+      <Tabs.Screen name="countries" />
+      <Tabs.Screen name="city" />
     </Tabs>
   );
 }
-<Tabs.Screen name="activity" />

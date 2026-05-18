@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const cities = countries.slice(0, 6).map(c => ({ name: c.cities[0], country: c.name, emoji: c.emoji }));
+
 export default function HomeScreen() {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('All');
@@ -70,7 +71,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             key={activity.id}
             style={styles.card}
-            onPress={() => router.push('/(tabs)/activity')}>
+            onPress={() => router.push(`/(tabs)/activity?id=${activity.id}` as any)}>
             <Image source={{ uri: activity.image }} style={styles.cardImage} />
             <View style={styles.cardContent}>
               <Text style={styles.cardTitle}>{activity.title}</Text>
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
   categoryTextActive: {
     color: '#FFFFFF',
   },
- card: {
+  card: {
     marginHorizontal: 24,
     marginBottom: 16,
     borderRadius: 20,
@@ -311,9 +312,6 @@ const styles = StyleSheet.create({
   navItemActive: {
     borderTopWidth: 2,
     borderTopColor: '#FF6B35',
-  },
-  navIcon: {
-    fontSize: 22,
   },
   navLabel: {
     fontSize: 11,
