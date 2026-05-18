@@ -1,6 +1,6 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
 const bookings = [
   { id: 1, title: 'Desert Safari', location: 'Dubai, UAE', date: 'May 14', status: 'Upcoming' },
   { id: 2, title: 'Cooking Class', location: 'Paris, France', date: 'Apr 28', status: 'Completed' },
@@ -77,19 +77,19 @@ export default function ProfileScreen() {
 
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
-          <Text style={styles.navIcon}>🏠</Text>
+          <Ionicons name="home-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
-          <Text style={styles.navIcon}>🔍</Text>
+          <Ionicons name="search" size={24} color="#999" />
           <Text style={styles.navLabel}>Search</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
-          <Text style={styles.navIcon}>🤍</Text>
+          <Ionicons name="heart-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Saved</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.navItem, styles.navItemActive]}>
-          <Text style={styles.navIcon}>👤</Text>
+          <Ionicons name="person" size={24} color="#FF6B35" />
           <Text style={[styles.navLabel, styles.navLabelActive]}>Profile</Text>
         </TouchableOpacity>
       </View>

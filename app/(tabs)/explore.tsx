@@ -1,10 +1,10 @@
 import { activities, categories, countries } from '@/constants/data';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const cities = countries.slice(0, 6).map(c => ({ name: c.cities[0], country: c.name, emoji: c.emoji }));
-
 export default function HomeScreen() {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('All');
@@ -92,19 +92,19 @@ export default function HomeScreen() {
       {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={[styles.navItem, styles.navItemActive]}>
-          <Text style={styles.navIcon}>🏠</Text>
+          <Ionicons name="home" size={24} color="#FF6B35" />
           <Text style={[styles.navLabel, styles.navLabelActive]}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
-          <Text style={styles.navIcon}>🔍</Text>
+          <Ionicons name="search" size={24} color="#999" />
           <Text style={styles.navLabel}>Search</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
-          <Text style={styles.navIcon}>🤍</Text>
+          <Ionicons name="heart-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Saved</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/profile')}>
-          <Text style={styles.navIcon}>👤</Text>
+          <Ionicons name="person-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Profile</Text>
         </TouchableOpacity>
       </View>
@@ -197,6 +197,11 @@ const styles = StyleSheet.create({
     padding: 16,
     marginRight: 12,
     width: 90,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
   },
   cityEmoji: {
     fontSize: 28,
@@ -234,12 +239,17 @@ const styles = StyleSheet.create({
   categoryTextActive: {
     color: '#FFFFFF',
   },
-  card: {
+ card: {
     marginHorizontal: 24,
     marginBottom: 16,
     borderRadius: 20,
     backgroundColor: '#FFF8F0',
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
   cardImage: {
     height: 160,

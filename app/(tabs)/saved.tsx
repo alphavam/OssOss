@@ -1,8 +1,8 @@
 import { activities } from '@/constants/data';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
 export default function SavedScreen() {
   const router = useRouter();
   const [saved, setSaved] = useState(activities.slice(0, 4));
@@ -56,19 +56,19 @@ export default function SavedScreen() {
 
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
-          <Text style={styles.navIcon}>🏠</Text>
+          <Ionicons name="home-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
-          <Text style={styles.navIcon}>🔍</Text>
+          <Ionicons name="search" size={24} color="#999" />
           <Text style={styles.navLabel}>Search</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.navItem, styles.navItemActive]}>
-          <Text style={styles.navIcon}>❤️</Text>
+          <Ionicons name="heart" size={24} color="#FF6B35" />
           <Text style={[styles.navLabel, styles.navLabelActive]}>Saved</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/profile')}>
-          <Text style={styles.navIcon}>👤</Text>
+          <Ionicons name="person-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Profile</Text>
         </TouchableOpacity>
       </View>
