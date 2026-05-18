@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   exploreBtn: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 50,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     marginBottom: 16,
     overflow: 'hidden',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   cardPrice: {
     fontSize: 13,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
   },
   removeBtn: {
     padding: 16,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   navItemActive: {
     borderTopWidth: 2,
-    borderTopColor: '#E63946',
+    borderTopColor: '#FF6B35',
   },
   navIcon: {
     fontSize: 22,
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navLabelActive: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '700',
   },
 });

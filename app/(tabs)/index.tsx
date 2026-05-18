@@ -15,7 +15,7 @@ export default function HomeScreen() {
         <View style={styles.topSection}>
           <View style={styles.logoContainer}>
             <Text style={styles.logoText}>OSS</Text>
-            <Text style={styles.logoTextRed}>OSS</Text>
+            <Text style={styles.logoTextOrange}>OSS</Text>
           </View>
           <Text style={styles.tagline}>Discover the World's Best Activities</Text>
           <Text style={styles.subtitle}>Tours • Adventures • Experiences</Text>
@@ -26,8 +26,8 @@ export default function HomeScreen() {
             <Text style={styles.buttonText}>Explore Now →</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push('/(tabs)/login')}>
-  <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
-</TouchableOpacity>
+            <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -37,14 +37,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFF8F0',
   },
   circle1: {
     position: 'absolute',
     width: 350,
     height: 350,
     borderRadius: 175,
-    backgroundColor: '#E6394615',
+    backgroundColor: '#FF6B3520',
     top: -50,
     right: -80,
   },
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     borderRadius: 125,
-    backgroundColor: '#E6394610',
+    backgroundColor: '#FF6B3515',
     bottom: 100,
     left: -60,
   },
@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
     color: '#0A0A0A',
     letterSpacing: 4,
   },
-  logoTextRed: {
+  logoTextOrange: {
     fontSize: 52,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
     letterSpacing: 4,
   },
   tagline: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     paddingVertical: 18,
     borderRadius: 50,
     alignItems: 'center',
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loginLink: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: 'bold',
   },
 });

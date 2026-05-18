@@ -1,13 +1,14 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-const dates = ['Mon 12', 'Tue 13', 'Wed 14', 'Thu 15', 'Fri 16', 'Sat 17', 'Sun 18'];
+import { Calendar } from 'react-native-calendars';
 
 export default function BookingScreen() {
   const router = useRouter();
-  const [selectedDate, setSelectedDate] = useState('Wed 14');
+  const [selectedDate, setSelectedDate] = useState('');
   const [people, setPeople] = useState(2);
+
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,20 +35,41 @@ export default function BookingScreen() {
             </View>
           </View>
 
-          {/* Select Date */}
+          {/* Calendar */}
           <Text style={styles.sectionTitle}>Select Date</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.datesContainer}>
-            {dates.map(date => (
-              <TouchableOpacity
-                key={date}
-                style={[styles.dateBtn, selectedDate === date && styles.dateBtnActive]}
-                onPress={() => setSelectedDate(date)}>
-                <Text style={[styles.dateBtnText, selectedDate === date && styles.dateBtnTextActive]}>
-                  {date}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <View style={styles.calendarContainer}>
+            <Calendar
+              minDate={today}
+              onDayPress={(day: any) => setSelectedDate(day.dateString)}
+              markedDates={{
+                [selectedDate]: {
+                  selected: true,
+                  selectedColor: '#FF6B35',
+                },
+              }}
+              theme={{
+                backgroundColor: '#FFF8F0',
+                calendarBackground: '#FFF8F0',
+                textSectionTitleColor: '#0A0A0A',
+                selectedDayBackgroundColor: '#FF6B35',
+                selectedDayTextColor: '#FFFFFF',
+                todayTextColor: '#FF6B35',
+                dayTextColor: '#0A0A0A',
+                textDisabledColor: '#ccc',
+                arrowColor: '#FF6B35',
+                monthTextColor: '#0A0A0A',
+                textDayFontWeight: '600',
+                textMonthFontWeight: '900',
+                textDayHeaderFontWeight: '700',
+              }}
+            />
+          </View>
+
+          {selectedDate ? (
+            <View style={styles.selectedDateBadge}>
+              <Text style={styles.selectedDateText}>📅 Selected: {selectedDate}</Text>
+            </View>
+          ) : null}
 
           {/* Number of People */}
           <Text style={styles.sectionTitle}>Number of People</Text>
@@ -87,8 +109,12 @@ export default function BookingScreen() {
 
       {/* Bottom Button */}
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.confirmBtn} onPress={() => router.push('/(tabs)/explore')}>
-          <Text style={styles.confirmBtnText}>Confirm Booking</Text>
+        <TouchableOpacity
+          style={[styles.confirmBtn, !selectedDate && styles.confirmBtnDisabled]}
+          onPress={() => selectedDate && router.push('/(tabs)/explore')}>
+          <Text style={styles.confirmBtnText}>
+            {selectedDate ? 'Confirm Booking' : 'Select a Date First'}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -112,7 +138,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -130,7 +156,7 @@ const styles = StyleSheet.create({
   },
   summaryCard: {
     flexDirection: 'row',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     marginBottom: 24,
@@ -140,7 +166,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 12,
-    backgroundColor: '#FFE5E7',
+    backgroundColor: '#FFF8F0',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -172,31 +198,28 @@ const styles = StyleSheet.create({
     color: '#0A0A0A',
     marginBottom: 16,
   },
-  datesContainer: {
+  calendarContainer: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: 16,
+  },
+  selectedDateBadge: {
+    backgroundColor: '#FFF8F0',
+    borderRadius: 50,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    alignSelf: 'flex-start',
     marginBottom: 24,
   },
-  dateBtn: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 50,
-    backgroundColor: '#F5F5F5',
-    marginRight: 10,
-  },
-  dateBtnActive: {
-    backgroundColor: '#E63946',
-  },
-  dateBtnText: {
+  selectedDateText: {
     fontSize: 14,
-    color: '#666',
-    fontWeight: '600',
-  },
-  dateBtnTextActive: {
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: '#FF6B35',
   },
   peopleSelector: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 16,
     marginBottom: 24,
@@ -206,7 +229,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -221,7 +244,7 @@ const styles = StyleSheet.create({
     color: '#0A0A0A',
   },
   priceCard: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 20,
     marginBottom: 100,
@@ -253,7 +276,7 @@ const styles = StyleSheet.create({
   priceTotalValue: {
     fontSize: 16,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
   },
   bottomBar: {
     position: 'absolute',
@@ -267,10 +290,13 @@ const styles = StyleSheet.create({
     borderTopColor: '#F0F0F0',
   },
   confirmBtn: {
-    backgroundColor: '#E63946',
+    backgroundColor: '#FF6B35',
     paddingVertical: 18,
     borderRadius: 50,
     alignItems: 'center',
+  },
+  confirmBtnDisabled: {
+    backgroundColor: '#FFB899',
   },
   confirmBtnText: {
     color: '#FFFFFF',

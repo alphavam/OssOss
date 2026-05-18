@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     marginHorizontal: 24,
     borderRadius: 16,
     paddingHorizontal: 16,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   tag: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFF8F0',
     borderRadius: 50,
   },
   tagText: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginBottom: 16,
     borderRadius: 16,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FFF8F0',
     overflow: 'hidden',
   },
   cardImage: {
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   cardPrice: {
     fontSize: 14,
     fontWeight: '900',
-    color: '#E63946',
+    color: '#FF6B35',
   },
   noResults: {
     alignItems: 'center',
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
   navItemActive: {
     borderTopWidth: 2,
-    borderTopColor: '#E63946',
+    borderTopColor: '#FF6B35',
   },
   navIcon: {
     fontSize: 22,
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navLabelActive: {
-    color: '#E63946',
+    color: '#FF6B35',
     fontWeight: '700',
   },
 });
