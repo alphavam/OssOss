@@ -1,10 +1,15 @@
-import { activities, categories, countries } from '@/constants/data';
+import { activities, categories } from '@/constants/data';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-const cities = countries.slice(0, 6).map(c => ({ name: c.cities[0], country: c.name, emoji: c.emoji }));
+const topDestinations = [
+  { name: 'Rome', country: 'Italy', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800' },
+  { name: 'Paris', country: 'France', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800' },
+  { name: 'Dubai', country: 'UAE', image: 'https://images.unsplash.com/photo-1549144511-f099e773c147?w=800' },
+  { name: 'Tokyo', country: 'Japan', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800' },
+];
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -15,41 +20,41 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>Hello, Traveler 👋</Text>
-            <Text style={styles.headerTitle}>Where to next?</Text>
-            <TouchableOpacity style={styles.countriesBtn} onPress={() => router.push('/countries' as any)}>
-              <Text style={styles.countriesBtnText}>🌍 Browse Countries</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.avatar} onPress={() => router.push('/(tabs)/profile')}>
-            <Text style={styles.avatarText}>A</Text>
-          </TouchableOpacity>
-        </View>
 
-        {/* Search */}
-        <View style={styles.searchContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
+        {/* Search Bar */}
+        <View style={styles.searchBar}>
+          <Ionicons name="search" size={18} color="#999" />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search activities, cities..."
+            placeholder="Find places and things to do"
             placeholderTextColor="#999"
+            onFocus={() => router.push('/(tabs)/search')}
           />
+          <Ionicons name="notifications-outline" size={22} color="#0A0A0A" />
         </View>
 
-        {/* Popular Cities */}
-        <Text style={styles.sectionTitle}>Popular Cities</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.citiesContainer}>
-          {cities.map(city => (
-            <TouchableOpacity key={city.name} style={styles.cityCard}>
-              <Text style={styles.cityEmoji}>{city.emoji}</Text>
-              <Text style={styles.cityName}>{city.name}</Text>
-              <Text style={styles.cityCountry}>{city.country}</Text>
+        {/* Hero Image */}
+        <View style={styles.heroContainer}>
+          <Image
+            source={{ uri: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800' }}
+            style={styles.heroImage}
+          />
+          <View style={styles.heroOverlay}>
+            <Text style={styles.heroText}>Discover & book things to do</Text>
+          </View>
+        </View>
+
+        {/* Top Destinations */}
+        <Text style={styles.sectionTitle}>Top destinations</Text>
+        <View style={styles.destinationsGrid}>
+          {topDestinations.map(dest => (
+            <TouchableOpacity key={dest.name} style={styles.destinationCard}>
+              <Image source={{ uri: dest.image }} style={styles.destinationImage} />
+              <Text style={styles.destinationName}>{dest.name}</Text>
+              <Text style={styles.destinationCountry}>{dest.country}</Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </View>
 
         {/* Categories */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
@@ -65,27 +70,40 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
 
-        {/* Featured Activities */}
-        <Text style={styles.sectionTitle}>Featured Activities</Text>
-        {filtered.map(activity => (
-          <TouchableOpacity
-            key={activity.id}
-            style={styles.card}
-            onPress={() => router.push(`/(tabs)/activity?id=${activity.id}` as any)}>
-            <Image source={{ uri: activity.image }} style={styles.cardImage} />
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{activity.title}</Text>
-              <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
-              <View style={styles.cardBottom}>
-                <View style={styles.cardMeta}>
-                  <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
-                  <Text style={styles.cardDuration}>⏱ {activity.duration}</Text>
-                </View>
-                <Text style={styles.cardPrice}>From ${activity.price}</Text>
+        {/* Unforgettable Experiences */}
+        <Text style={styles.sectionTitle}>Unforgettable experiences</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardsContainer}>
+          {filtered.map(activity => (
+            <TouchableOpacity
+              key={activity.id}
+              style={styles.card}
+              onPress={() => router.push(`/(tabs)/activity?id=${activity.id}` as any)}>
+              <View style={styles.cardImageContainer}>
+                <Image source={{ uri: activity.image }} style={styles.cardImage} />
+                {activity.rating >= 4.9 && (
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>Likely to sell out</Text>
+                  </View>
+                )}
+                <TouchableOpacity style={styles.heartBtn}>
+                  <Ionicons name="heart-outline" size={18} color="#fff" />
+                </TouchableOpacity>
               </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+              <View style={styles.cardContent}>
+                <Text style={styles.cardCategory}>{activity.category}</Text>
+                <Text style={styles.cardTitle} numberOfLines={2}>{activity.title}</Text>
+                <Text style={styles.cardDuration}>⏱ {activity.duration}</Text>
+                <View style={styles.cardBottom}>
+                  <View style={styles.ratingRow}>
+                    <Ionicons name="star" size={12} color="#FF6B35" />
+                    <Text style={styles.cardRating}> {activity.rating}</Text>
+                  </View>
+                  <Text style={styles.cardPrice}>From ${activity.price}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
 
         <View style={{ height: 80 }} />
       </ScrollView>
@@ -93,16 +111,20 @@ export default function HomeScreen() {
       {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={[styles.navItem, styles.navItemActive]}>
-          <Ionicons name="home" size={24} color="#FF6B35" />
-          <Text style={[styles.navLabel, styles.navLabelActive]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/search')}>
-          <Ionicons name="search" size={24} color="#999" />
-          <Text style={styles.navLabel}>Search</Text>
+          <Ionicons name="search" size={24} color="#FF6B35" />
+          <Text style={[styles.navLabel, styles.navLabelActive]}>Discover</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
           <Ionicons name="heart-outline" size={24} color="#999" />
-          <Text style={styles.navLabel}>Saved</Text>
+          <Text style={styles.navLabel}>Wishlist</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="cart-outline" size={24} color="#999" />
+          <Text style={styles.navLabel}>Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/booking')}>
+          <Ionicons name="ticket-outline" size={24} color="#999" />
+          <Text style={styles.navLabel}>Bookings</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/profile')}>
           <Ionicons name="person-outline" size={24} color="#999" />
@@ -118,115 +140,90 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  header: {
+  searchBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 16,
-  },
-  greeting: {
-    fontSize: 14,
-    color: '#999',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: '900',
-    color: '#0A0A0A',
-  },
-  countriesBtn: {
-    backgroundColor: '#FFF8F0',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    backgroundColor: '#F5F5F5',
+    marginHorizontal: 16,
+    marginVertical: 12,
     borderRadius: 50,
-    marginTop: 8,
-    alignSelf: 'flex-start',
-  },
-  countriesBtnText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#FF6B35',
-  },
-  avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#FF6B35',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF8F0',
-    marginHorizontal: 24,
-    borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 24,
-  },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
+    paddingVertical: 10,
+    gap: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 15,
     color: '#0A0A0A',
   },
+  heroContainer: {
+    marginHorizontal: 16,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: 24,
+    height: 220,
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
+  },
+  heroOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 16,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  heroText: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#FFFFFF',
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '900',
     color: '#0A0A0A',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     marginBottom: 16,
   },
-  citiesContainer: {
-    paddingLeft: 24,
+  destinationsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    gap: 12,
     marginBottom: 24,
   },
-  cityCard: {
-    alignItems: 'center',
-    backgroundColor: '#FFF8F0',
+  destinationCard: {
+    width: '47%',
     borderRadius: 16,
-    padding: 16,
-    marginRight: 12,
-    width: 90,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 2,
+    overflow: 'hidden',
   },
-  cityEmoji: {
-    fontSize: 28,
-    marginBottom: 6,
+  destinationImage: {
+    width: '100%',
+    height: 130,
+    borderRadius: 16,
   },
-  cityName: {
-    fontSize: 13,
-    fontWeight: '700',
+  destinationName: {
+    fontSize: 15,
+    fontWeight: '800',
     color: '#0A0A0A',
+    marginTop: 8,
   },
-  cityCountry: {
-    fontSize: 11,
+  destinationCountry: {
+    fontSize: 12,
     color: '#999',
-    marginTop: 2,
+    marginBottom: 8,
   },
   categoriesContainer: {
-    paddingLeft: 24,
+    paddingLeft: 16,
     marginBottom: 24,
   },
   categoryBtn: {
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 50,
-    backgroundColor: '#FFF8F0',
+    backgroundColor: '#F5F5F5',
     marginRight: 10,
   },
   categoryBtnActive: {
@@ -240,57 +237,92 @@ const styles = StyleSheet.create({
   categoryTextActive: {
     color: '#FFFFFF',
   },
-  card: {
-    marginHorizontal: 24,
+  cardsContainer: {
+    paddingLeft: 16,
     marginBottom: 16,
-    borderRadius: 20,
-    backgroundColor: '#FFF8F0',
-    overflow: 'hidden',
+  },
+  card: {
+    width: 220,
+    marginRight: 16,
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 3,
+    overflow: 'hidden',
+  },
+  cardImageContainer: {
+    position: 'relative',
   },
   cardImage: {
-    height: 160,
     width: '100%',
+    height: 140,
+  },
+  badge: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: '#E63946',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  heartBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardContent: {
-    padding: 16,
+    padding: 12,
+  },
+  cardCategory: {
+    fontSize: 11,
+    color: '#999',
+    marginBottom: 4,
+    textTransform: 'uppercase',
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0A0A0A',
-    marginBottom: 4,
+    marginBottom: 6,
   },
-  cardLocation: {
-    fontSize: 13,
-    color: '#999',
-    marginBottom: 12,
+  cardDuration: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 8,
   },
   cardBottom: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  cardMeta: {
+  ratingRow: {
     flexDirection: 'row',
-    gap: 12,
+    alignItems: 'center',
   },
   cardRating: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#666',
-  },
-  cardDuration: {
-    fontSize: 13,
-    color: '#666',
+    fontWeight: '600',
   },
   cardPrice: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '900',
-    color: '#FF6B35',
+    color: '#0A0A0A',
   },
   bottomNav: {
     position: 'absolute',

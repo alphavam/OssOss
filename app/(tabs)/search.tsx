@@ -19,15 +19,12 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Search</Text>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <Text style={styles.searchIcon}>🔍</Text>
+      {/* Search Bar */}
+      <View style={styles.searchBar}>
+        <Ionicons name="search" size={18} color="#999" />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search activities, cities, countries..."
+          placeholder="Find places and things to do"
           placeholderTextColor="#999"
           value={query}
           onChangeText={setQuery}
@@ -35,7 +32,7 @@ export default function SearchScreen() {
         />
         {query.length > 0 && (
           <TouchableOpacity onPress={() => setQuery('')}>
-            <Text style={styles.clearBtn}>✕</Text>
+            <Ionicons name="close-circle" size={20} color="#999" />
           </TouchableOpacity>
         )}
       </View>
@@ -47,7 +44,8 @@ export default function SearchScreen() {
             <View style={styles.tagsContainer}>
               {popular.map(city => (
                 <TouchableOpacity key={city} style={styles.tag} onPress={() => setQuery(city)}>
-                  <Text style={styles.tagText}>📍 {city}</Text>
+                  <Ionicons name="location-outline" size={14} color="#FF6B35" />
+                  <Text style={styles.tagText}> {city}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -59,13 +57,17 @@ export default function SearchScreen() {
               <TouchableOpacity
                 key={activity.id}
                 style={styles.card}
-                onPress={() => router.push('/(tabs)/activity')}>
+                onPress={() => router.push(`/(tabs)/activity?id=${activity.id}` as any)}>
                 <Image source={{ uri: activity.image }} style={styles.cardImage} />
                 <View style={styles.cardContent}>
+                  <Text style={styles.cardCategory}>{activity.category}</Text>
                   <Text style={styles.cardTitle}>{activity.title}</Text>
-                  <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
+                  <Text style={styles.cardLocation}>{activity.city}, {activity.country}</Text>
                   <View style={styles.cardBottom}>
-                    <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
+                    <View style={styles.ratingRow}>
+                      <Ionicons name="star" size={12} color="#FF6B35" />
+                      <Text style={styles.cardRating}> {activity.rating}</Text>
+                    </View>
                     <Text style={styles.cardPrice}>From ${activity.price}</Text>
                   </View>
                 </View>
@@ -73,7 +75,7 @@ export default function SearchScreen() {
             ))}
             {filtered.length === 0 && (
               <View style={styles.noResults}>
-                <Text style={styles.noResultsEmoji}>🔍</Text>
+                <Ionicons name="search" size={48} color="#E0E0E0" />
                 <Text style={styles.noResultsText}>No results found</Text>
                 <Text style={styles.noResultsSub}>Try a different search term</Text>
               </View>
@@ -83,18 +85,23 @@ export default function SearchScreen() {
         <View style={{ height: 80 }} />
       </ScrollView>
 
+      {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/explore')}>
-          <Ionicons name="home-outline" size={24} color="#999" />
-          <Text style={styles.navLabel}>Home</Text>
+          <Ionicons name="search-outline" size={24} color="#999" />
+          <Text style={styles.navLabel}>Discover</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.navItem, styles.navItemActive]}>
-          <Ionicons name="search" size={24} color="#FF6B35" />
-          <Text style={[styles.navLabel, styles.navLabelActive]}>Search</Text>
+          <Ionicons name="heart-outline" size={24} color="#FF6B35" />
+          <Text style={[styles.navLabel, styles.navLabelActive]}>Wishlist</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/saved')}>
-          <Ionicons name="heart-outline" size={24} color="#999" />
-          <Text style={styles.navLabel}>Saved</Text>
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="cart-outline" size={24} color="#999" />
+          <Text style={styles.navLabel}>Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/booking')}>
+          <Ionicons name="ticket-outline" size={24} color="#999" />
+          <Text style={styles.navLabel}>Bookings</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/profile')}>
           <Ionicons name="person-outline" size={24} color="#999" />
@@ -110,57 +117,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  header: {
-    paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 8,
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: '900',
-    color: '#0A0A0A',
-  },
-  searchContainer: {
+  searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF8F0',
-    marginHorizontal: 24,
-    borderRadius: 16,
+    backgroundColor: '#F5F5F5',
+    marginHorizontal: 16,
+    marginVertical: 12,
+    borderRadius: 50,
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 24,
-  },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
+    paddingVertical: 10,
+    gap: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 15,
     color: '#0A0A0A',
   },
-  clearBtn: {
-    fontSize: 16,
-    color: '#999',
-    paddingLeft: 8,
-  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '900',
     color: '#0A0A0A',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     marginBottom: 16,
+    marginTop: 8,
   },
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     gap: 10,
   },
   tag: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#FFF8F0',
+    backgroundColor: '#F5F5F5',
     borderRadius: 50,
   },
   tagText: {
@@ -170,56 +162,71 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    marginHorizontal: 24,
+    marginHorizontal: 16,
     marginBottom: 16,
     borderRadius: 16,
-    backgroundColor: '#FFF8F0',
+    backgroundColor: '#FFFFFF',
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
   },
   cardImage: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
   },
   cardContent: {
     flex: 1,
     padding: 12,
     justifyContent: 'space-between',
   },
+  cardCategory: {
+    fontSize: 10,
+    color: '#999',
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
   cardTitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0A0A0A',
+    marginBottom: 4,
   },
   cardLocation: {
     fontSize: 12,
     color: '#999',
+    marginBottom: 6,
   },
   cardBottom: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   cardRating: {
     fontSize: 12,
     color: '#666',
+    fontWeight: '600',
   },
   cardPrice: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '900',
-    color: '#FF6B35',
+    color: '#0A0A0A',
   },
   noResults: {
     alignItems: 'center',
     paddingTop: 60,
-  },
-  noResultsEmoji: {
-    fontSize: 48,
-    marginBottom: 16,
+    gap: 12,
   },
   noResultsText: {
     fontSize: 18,
     fontWeight: '800',
     color: '#0A0A0A',
-    marginBottom: 8,
   },
   noResultsSub: {
     fontSize: 14,
@@ -245,9 +252,6 @@ const styles = StyleSheet.create({
   navItemActive: {
     borderTopWidth: 2,
     borderTopColor: '#FF6B35',
-  },
-  navIcon: {
-    fontSize: 22,
   },
   navLabel: {
     fontSize: 11,
