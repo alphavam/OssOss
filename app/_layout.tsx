@@ -1,23 +1,18 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-export default function TabLayout() {
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: { display: 'none' },
-      }}>
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="explore" />
-      <Tabs.Screen name="activity" />
-      <Tabs.Screen name="booking" />
-      <Tabs.Screen name="profile" />
-      <Tabs.Screen name="search" />
-      <Tabs.Screen name="login" />
-      <Tabs.Screen name="saved" />
-      <Tabs.Screen name="countries" />
-      <Tabs.Screen name="city" />
-    </Tabs>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
   );
 }

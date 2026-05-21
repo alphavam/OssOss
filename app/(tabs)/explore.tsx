@@ -48,7 +48,10 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Top destinations</Text>
         <View style={styles.destinationsGrid}>
           {topDestinations.map(dest => (
-            <TouchableOpacity key={dest.name} style={styles.destinationCard}>
+            <TouchableOpacity
+              key={dest.name}
+              style={styles.destinationCard}
+              onPress={() => router.push(`/(tabs)/city?name=${dest.name}` as any)}>
               <Image source={{ uri: dest.image }} style={styles.destinationImage} />
               <Text style={styles.destinationName}>{dest.name}</Text>
               <Text style={styles.destinationCountry}>{dest.country}</Text>
@@ -118,7 +121,7 @@ export default function HomeScreen() {
           <Ionicons name="heart-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Wishlist</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(tabs)/cart')}>
           <Ionicons name="cart-outline" size={24} color="#999" />
           <Text style={styles.navLabel}>Cart</Text>
         </TouchableOpacity>

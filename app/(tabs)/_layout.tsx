@@ -18,6 +18,7 @@ export default function TabLayout() {
       <Tabs.Screen name="saved" />
       <Tabs.Screen name="countries" />
       <Tabs.Screen name="city" />
+      <Tabs.Screen name="cart" />
     </Tabs>
   );
 }
