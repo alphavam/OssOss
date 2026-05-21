@@ -1,11 +1,12 @@
 import { activities, countries } from '@/constants/data';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function CityScreen() {
   const router = useRouter();
-  const cityName = 'Dubai';
+  const { name } = useLocalSearchParams();
+  const cityName = name as string || 'Dubai';
   const countryData = countries.find(c => c.cities.includes(cityName));
   const cityActivities = activities.filter(a => a.city === cityName);
 
@@ -32,21 +33,25 @@ export default function CityScreen() {
         </View>
 
         {/* Activities */}
-        <Text style={styles.sectionTitle}>Activities in {cityName}</Text>
+        <Text style={styles.sectionTitle}>
+          {cityActivities.length > 0 ? `Activities in ${cityName}` : `No activities yet in ${cityName}`}
+        </Text>
+
         {cityActivities.length > 0 ? (
           cityActivities.map(activity => (
             <TouchableOpacity
               key={activity.id}
               style={styles.card}
-              onPress={() => router.push('/(tabs)/activity')}>
+              onPress={() => router.push(`/(tabs)/activity?id=${activity.id}` as any)}>
               <Image source={{ uri: activity.image }} style={styles.cardImage} />
               <View style={styles.cardContent}>
+                <Text style={styles.cardCategory}>{activity.category}</Text>
                 <Text style={styles.cardTitle}>{activity.title}</Text>
                 <Text style={styles.cardLocation}>📍 {activity.city}, {activity.country}</Text>
                 <View style={styles.cardBottom}>
-                  <View style={styles.cardMeta}>
-                    <Text style={styles.cardRating}>⭐ {activity.rating}</Text>
-                    <Text style={styles.cardDuration}>⏱ {activity.duration}</Text>
+                  <View style={styles.ratingRow}>
+                    <Ionicons name="star" size={12} color="#FF6B35" />
+                    <Text style={styles.cardRating}> {activity.rating}</Text>
                   </View>
                   <Text style={styles.cardPrice}>From ${activity.price}</Text>
                 </View>
@@ -55,8 +60,8 @@ export default function CityScreen() {
           ))
         ) : (
           <View style={styles.empty}>
-            <Text style={styles.emptyEmoji}>🏙️</Text>
-            <Text style={styles.emptyText}>No activities yet in {cityName}</Text>
+            <Ionicons name="map-outline" size={60} color="#E0E0E0" />
+            <Text style={styles.emptyText}>Coming soon!</Text>
           </View>
         )}
 
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingTop: 20,
     paddingBottom: 8,
   },
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#FFF8F0',
+    backgroundColor: '#F5F5F5',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -123,14 +128,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '900',
     color: '#0A0A0A',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     marginBottom: 16,
   },
   card: {
-    marginHorizontal: 24,
+    marginHorizontal: 16,
     marginBottom: 16,
-    borderRadius: 20,
-    backgroundColor: '#FFF8F0',
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -145,8 +150,14 @@ const styles = StyleSheet.create({
   cardContent: {
     padding: 16,
   },
+  cardCategory: {
+    fontSize: 11,
+    color: '#999',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '800',
     color: '#0A0A0A',
     marginBottom: 4,
@@ -161,30 +172,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  cardMeta: {
+  ratingRow: {
     flexDirection: 'row',
-    gap: 12,
+    alignItems: 'center',
   },
   cardRating: {
     fontSize: 13,
     color: '#666',
-  },
-  cardDuration: {
-    fontSize: 13,
-    color: '#666',
+    fontWeight: '600',
   },
   cardPrice: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '900',
     color: '#FF6B35',
   },
   empty: {
     alignItems: 'center',
     paddingTop: 60,
-  },
-  emptyEmoji: {
-    fontSize: 48,
-    marginBottom: 16,
+    gap: 12,
   },
   emptyText: {
     fontSize: 16,
